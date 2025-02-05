@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google"; // Or switch to a font like Inter/Roboto if preferred
 import "./globals.css";
 import Header from "@/components/Header";  // Create a Header component
 import Footer from "@/components/Footer";  // Create a Footer component
