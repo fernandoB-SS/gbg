@@ -4,16 +4,6 @@ import "./globals.css";
 import Header from "@/components/Header";  // Create a Header component
 import Footer from "@/components/Footer";  // Create a Footer component
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: "Gentle Behavior Guidance – Supporting Families with Autism",
   description: "Empowering Spanish-speaking families and anyone interested in gentle care for Autism. Find support, training, and resources.",
