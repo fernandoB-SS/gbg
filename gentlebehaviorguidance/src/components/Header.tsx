@@ -1,3 +1,4 @@
+// src/components/Header.tsx
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
@@ -23,10 +24,10 @@ const Header = () => {
                 <Link href="/services" className="text-gray-700 hover:text-primary">
                     Services
                 </Link>
-                {/* Using a Shadcn UI Button for a call-to-action */}
-                <Button variant="default" size="sm">
+                {/* Contact Link */}
+                <Link href="/contact" className="text-gray-600 hover:text-gray-800">
                     Contact
-                </Button>
+                </Link>
             </nav>
         </header>
     );
