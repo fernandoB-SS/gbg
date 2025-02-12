@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 import Logo from '@/assets/LOGO.png';
-import { Button } from '@/components/ui/button'; // Importing the shadcn UI Button
 
 const Header = () => {
     return (
