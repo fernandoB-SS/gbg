@@ -1,24 +1,26 @@
-// src/app/services/page.tsx
 'use client';
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
-import { LuUniversity } from "react-icons/lu";
-import { LuBookOpen } from "react-icons/lu";
-import { LuRocket } from "react-icons/lu";
-import { LuSchool } from "react-icons/lu";
-import { LuNotebookPen } from "react-icons/lu";
-import { LuLaugh } from "react-icons/lu";
-import { IoMdClose } from "react-icons/io"; // Icon for the close button
+import {
+    LuUniversity,
+    LuBookOpen,
+    LuRocket,
+    LuSchool,
+    LuNotebookPen,
+    LuLaugh,
+} from "react-icons/lu";
+import { IoMdClose } from "react-icons/io";
+import { LanguageContext } from "@/context/LanguageContext";
 
 type Service = {
     id: number;
     title: string;
     description: string;
     icon: string | React.ReactNode;
-    modalContent?: React.ReactNode; // Optional modal content for each service
+    modalContent?: React.ReactNode;
 };
 
-const servicesData: Service[] = [
+const servicesDataEn: Service[] = [
     {
         id: 1,
         title: "RBT Trainings",
@@ -152,6 +154,140 @@ const servicesData: Service[] = [
     },
 ];
 
+const servicesDataEs: Service[] = [
+    {
+        id: 1,
+        title: "Entrenamientos RBT",
+        description: "Recibe capacitación integral en técnicas de análisis de conducta aplicada.",
+        icon: <LuUniversity />,
+        modalContent: (
+            <div>
+                <p className="mb-4">
+                    El manual oficial de RBT de la Behavior Analyst Certification Board establece estándares rigurosos en desempeño, ética y supervisión. Como BCBA con credencial LBA, nuestro programa de capacitación está diseñado para prepararte completamente para la certificación RBT.
+                </p>
+                <p className="mb-4">
+                    Nuestro currículo integral cubre temas esenciales como la recopilación de datos, estrategias de intervención conductual, pautas éticas y protocolos de supervisión.
+                </p>
+                <p>
+                    Para más detalles y para revisar los estándares de la junta, por favor consulta el{" "}
+                    <a
+                        href="https://www.bacb.com/wp-content/uploads/2022/01/RBTHandbook_241226-a.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                    >
+                        manual oficial de RBT (PDF)
+                    </a>.
+                </p>
+            </div>
+        ),
+    },
+    {
+        id: 2,
+        title: "Consultas para Padres",
+        description: "Obtén orientación experta para apoyar el desarrollo de tu hijo en casa.",
+        icon: <LuLaugh />,
+        modalContent: (
+            <div>
+                <p className="mb-4">
+                    Nuestro servicio de Consultas para Padres ofrece orientación personalizada basada en prácticas basadas en evidencia. Incorporamos estándares éticos y las mejores prácticas según lo indicado por la Behavior Analyst Certification Board.
+                </p>
+                <p>
+                    Benefíciate de estrategias personalizadas y consejos prácticos para apoyar el desarrollo de tu hijo en casa. Para detalles adicionales sobre las pautas éticas y las prácticas recomendadas, por favor visita el{" "}
+                    <a
+                        href="https://www.bacb.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                    >
+                        sitio web de la BACB
+                    </a>.
+                </p>
+            </div>
+        ),
+    },
+    {
+        id: 3,
+        title: "Historias Sociales",
+        description: "Aprende cómo crear historias sociales atractivas adaptadas a las necesidades de tu familia.",
+        icon: <LuBookOpen />,
+        modalContent: (
+            <div>
+                <p className="mb-4">
+                    Las Historias Sociales son un enfoque creativo y basado en la evidencia diseñado para mejorar la comunicación social y el comportamiento, especialmente en individuos con autismo.
+                </p>
+                <p>
+                    En línea con las mejores prácticas y los principios promovidos por la Behavior Analyst Certification Board, nuestro servicio te guía en la creación de narrativas personalizadas que fomenten la comprensión social y las interacciones positivas.
+                </p>
+            </div>
+        ),
+    },
+    {
+        id: 4,
+        title: "Mentoría",
+        description: "Conéctate con profesionales experimentados para una mentoría continua.",
+        icon: <LuRocket />,
+        modalContent: (
+            <div>
+                <p className="mb-4">
+                    Nuestro programa de Mentoría te conecta con analistas de comportamiento experimentados que se adhieren a los estándares profesionales y éticos establecidos por la Behavior Analyst Certification Board.
+                </p>
+                <p>
+                    Recibe orientación continua, recursos y consejos de carrera diseñados para ayudarte a sobresalir en el campo del análisis de conducta aplicada. Para saber más sobre estos estándares, visita el{" "}
+                    <a
+                        href="https://www.bacb.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                    >
+                        sitio web de la BACB
+                    </a>.
+                </p>
+            </div>
+        ),
+    },
+    {
+        id: 5,
+        title: "Horas de Supervisión BCBA",
+        description: "Acumula horas de supervisión bajo la guía de un Analista de Comportamiento Certificado (BCBA).",
+        icon: <LuSchool />,
+        modalContent: (
+            <div>
+                <p className="mb-4">
+                    Nuestro servicio de Horas de Supervisión BCBA está diseñado para ayudarte a cumplir con los requisitos de experiencia práctica para la certificación BCBA. Brindamos supervisión que se alinea con los rigurosos estándares de la Behavior Analyst Certification Board.
+                </p>
+                <p>
+                    A través de sesiones estructuradas, obtendrás conocimientos valiosos y experiencia práctica que contribuirán a tu desarrollo profesional.
+                </p>
+            </div>
+        ),
+    },
+    {
+        id: 6,
+        title: "Blog Personal",
+        description: "Lee artículos perspicaces sobre orientación conductual y apoyo al autismo.",
+        icon: <LuNotebookPen />,
+        modalContent: (
+            <div>
+                <p className="mb-4">
+                    Nuestro Blog Personal ofrece comentarios de expertos, estudios de caso y las últimas tendencias en análisis de conducta. Cubrimos una variedad de temas, desde pautas éticas hasta estrategias prácticas de intervención.
+                </p>
+                <p>
+                    Mantente actualizado con contenido informado por los estándares y mejores prácticas avalados por la Behavior Analyst Certification Board. Para obtener más información, no dudes en visitar el{" "}
+                    <a
+                        href="https://www.bacb.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                    >
+                        sitio web de la BACB
+                    </a>.
+                </p>
+            </div>
+        ),
+    },
+];
+
 type ServiceCardProps = {
     service: Service;
     onClick: (service: Service) => void;
@@ -186,17 +322,14 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
     if (!isOpen) return null;
 
     return (
-        // Overlay covering the entire viewport; clicking on it closes the modal.
         <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
             onClick={onClose}
         >
-            {/* Modal content: clicking inside stops propagation to prevent closing */}
             <div
                 className="relative bg-white rounded-lg p-8 max-w-lg w-full"
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Close button in the top right corner */}
                 <button
                     onClick={onClose}
                     className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
@@ -211,6 +344,8 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 
 export default function ServicesPage() {
     const [selectedService, setSelectedService] = useState<Service | null>(null);
+    const { language } = useContext(LanguageContext);
+    const servicesData = language === "en" ? servicesDataEn : servicesDataEs;
 
     const openModal = (service: Service) => setSelectedService(service);
     const closeModal = () => setSelectedService(null);
@@ -220,9 +355,13 @@ export default function ServicesPage() {
             <section className="py-16 px-4 bg-gray-50">
                 <div className="container mx-auto max-w-7xl">
                     <header className="mb-12 text-center">
-                        <h1 className="text-4xl font-bold">Our Services</h1>
+                        <h1 className="text-4xl font-bold">
+                            {language === "en" ? "Our Services" : "Nuestros Servicios"}
+                        </h1>
                         <p className="mt-4 text-lg text-gray-700">
-                            Discover a range of services designed to help families navigate Autism and promote gentle behavior guidance.
+                            {language === "en"
+                                ? "Discover a range of services designed to help families navigate Autism and promote gentle behavior guidance."
+                                : "Descubre una gama de servicios diseñados para ayudar a las familias a enfrentar el autismo y promover una orientación conductual suave."}
                         </p>
                     </header>
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -233,7 +372,6 @@ export default function ServicesPage() {
                 </div>
             </section>
 
-            {/* Modal renders when a service is selected */}
             <Modal isOpen={!!selectedService} onClose={closeModal}>
                 {selectedService && (
                     <div>

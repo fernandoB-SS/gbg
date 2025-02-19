@@ -1,8 +1,40 @@
-// src/app/contact/page.tsx
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { LanguageContext } from '@/context/LanguageContext';
+
+const translations = {
+    en: {
+        heading: "Contact Us",
+        name: "Name",
+        email: "Email",
+        subject: "Subject",
+        message: "Message",
+        sendMessage: "Send Message",
+        sending: "Sending...",
+        fillAllFields: "Please fill in all fields.",
+        validEmail: "Please enter a valid email address.",
+        successMessage: "Your message has been sent successfully!",
+        genericError: "Something went wrong.",
+    },
+    es: {
+        heading: "Contáctanos",
+        name: "Nombre",
+        email: "Correo electrónico",
+        subject: "Asunto",
+        message: "Mensaje",
+        sendMessage: "Enviar Mensaje",
+        sending: "Enviando...",
+        fillAllFields: "Por favor, completa todos los campos.",
+        validEmail: "Por favor, ingresa un correo electrónico válido.",
+        successMessage: "¡Tu mensaje ha sido enviado exitosamente!",
+        genericError: "Algo salió mal.",
+    },
+};
 
 export default function ContactPage() {
+    const { language } = useContext(LanguageContext);
+    const t = translations[language];
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -23,13 +55,13 @@ export default function ContactPage() {
     // Client-side validation function
     const validateForm = () => {
         if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-            setError('Please fill in all fields.');
+            setError(t.fillAllFields);
             return false;
         }
         // Simple email regex check
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
-            setError('Please enter a valid email address.');
+            setError(t.validEmail);
             return false;
         }
         return true;
@@ -54,14 +86,14 @@ export default function ContactPage() {
 
             const data = await res.json();
             if (res.ok) {
-                setSuccess('Your message has been sent successfully!');
+                setSuccess(t.successMessage);
                 setFormData({ name: '', email: '', subject: '', message: '' });
             } else {
-                setError(data.error || 'Something went wrong.');
+                setError(data.error || t.genericError);
             }
         } catch (err) {
             console.error(err);
-            setError('Something went wrong.');
+            setError(t.genericError);
         } finally {
             setLoading(false);
         }
@@ -69,12 +101,12 @@ export default function ContactPage() {
 
     return (
         <div className="container mx-auto p-8">
-            <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
+            <h1 className="text-4xl font-bold mb-8">{t.heading}</h1>
             <form onSubmit={handleSubmit} className="max-w-xl mx-auto">
                 {error && <p className="mb-4 text-red-600">{error}</p>}
                 {success && <p className="mb-4 text-green-600">{success}</p>}
                 <div className="mb-4">
-                    <label htmlFor="name" className="block mb-1 font-medium">Name</label>
+                    <label htmlFor="name" className="block mb-1 font-medium">{t.name}</label>
                     <input
                         type="text"
                         id="name"
@@ -86,7 +118,7 @@ export default function ContactPage() {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="email" className="block mb-1 font-medium">Email</label>
+                    <label htmlFor="email" className="block mb-1 font-medium">{t.email}</label>
                     <input
                         type="email"
                         id="email"
@@ -98,7 +130,7 @@ export default function ContactPage() {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="subject" className="block mb-1 font-medium">Subject</label>
+                    <label htmlFor="subject" className="block mb-1 font-medium">{t.subject}</label>
                     <input
                         type="text"
                         id="subject"
@@ -110,7 +142,7 @@ export default function ContactPage() {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="message" className="block mb-1 font-medium">Message</label>
+                    <label htmlFor="message" className="block mb-1 font-medium">{t.message}</label>
                     <textarea
                         id="message"
                         name="message"
@@ -125,7 +157,7 @@ export default function ContactPage() {
                     className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-50"
                     disabled={loading}
                 >
-                    {loading ? 'Sending...' : 'Send Message'}
+                    {loading ? t.sending : t.sendMessage}
                 </button>
             </form>
         </div>
